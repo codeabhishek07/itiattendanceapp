@@ -1,0 +1,6 @@
+{
+  "name": "ITI Raigarh Attendance",
+  "description": "Daily Attendance & Leave Management App for Government ITI Raigarh, Chhattisgarh with Training Officer and Trainee portals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

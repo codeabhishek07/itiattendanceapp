@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ITI Raigarh Attendance</string>
+    <string name="institute_full_name">Government Industrial Training Institute, Raigarh (C.G.)</string>
+    <string name="portal_subtitle">Daily Attendance &amp; Leave Management System</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="role_admin_title">Admin – Training Officer</string>
+    <string name="role_trainee_title">Trainee</string>
+    <string name="casual_leave_limit_label">Casual Leave (CL): Maximum 12 days total</string>
+    <string name="medical_leave_limit_label">Medical Leave: Maximum 36 days total</string>
+    <string name="half_day_leave_label">Half-Day Leave</string>
+</resources>

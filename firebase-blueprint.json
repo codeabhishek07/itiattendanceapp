@@ -1,0 +1,639 @@
+{
+  "entities": {
+    "AdminProfile": {
+      "title": "AdminProfile",
+      "description": "Training Officer (Admin) profile bound to a specific assigned ITI Trade.",
+      "type": "object",
+      "properties": {
+        "adminId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the Training Officer."
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the Training Officer."
+        },
+        "assignedTradeId": {
+          "type": "string",
+          "description": "ID of the ITI Trade assigned to this Training Officer."
+        },
+        "assignedTradeName": {
+          "type": "string",
+          "description": "Display name of the assigned ITI Trade."
+        },
+        "sessionYear": {
+          "type": "string",
+          "description": "Configured academic session year (e.g., 2025-2026)."
+        },
+        "officerVerificationCode": {
+          "type": "string",
+          "description": "Institutional verification code required to register as Training Officer."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "adminId",
+        "fullName",
+        "assignedTradeId",
+        "assignedTradeName",
+        "sessionYear",
+        "officerVerificationCode",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user session profile for role routing and trade assignment.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user."
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the user."
+        },
+        "registrationNumber": {
+          "type": "string",
+          "description": "ITI registration or employee number."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["ADMIN", "TRAINEE"],
+          "description": "Active role of the user."
+        },
+        "tradeId": {
+          "type": "string",
+          "description": "Assigned Trade ID."
+        },
+        "tradeName": {
+          "type": "string",
+          "description": "Assigned Trade name."
+        },
+        "sessionYear": {
+          "type": "string",
+          "description": "Academic session year."
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether the account is active."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "userId",
+        "fullName",
+        "registrationNumber",
+        "role",
+        "tradeId",
+        "tradeName",
+        "sessionYear",
+        "isActive",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Trade": {
+      "title": "Trade",
+      "description": "ITI Trade configuration managed by the assigned Training Officer.",
+      "type": "object",
+      "properties": {
+        "tradeId": {
+          "type": "string",
+          "description": "Unique Trade identifier."
+        },
+        "tradeName": {
+          "type": "string",
+          "description": "Name of the Trade (e.g., Electrician, Fitter, COPA)."
+        },
+        "tradeCode": {
+          "type": "string",
+          "description": "Institutional code for the Trade."
+        },
+        "adminId": {
+          "type": "string",
+          "description": "UID of the Training Officer managing this Trade."
+        },
+        "adminName": {
+          "type": "string",
+          "description": "Name of the Training Officer."
+        },
+        "sessionYear": {
+          "type": "string",
+          "description": "Academic session year (e.g., 2025-2026)."
+        },
+        "totalWorkingDays": {
+          "type": "integer",
+          "description": "Configured total working days in the session."
+        },
+        "maxCasualLeave": {
+          "type": "integer",
+          "description": "Maximum Casual Leave days allowed (up to 12)."
+        },
+        "maxMedicalLeave": {
+          "type": "integer",
+          "description": "Maximum Medical Leave days allowed (up to 36)."
+        },
+        "halfDayDeductionRule": {
+          "type": "string",
+          "enum": ["DEDUCT_HALF_CL", "SEPARATE_QUOTA"],
+          "description": "Rule governing Half-Day Leave balance accounting."
+        },
+        "maxHalfDayLeaves": {
+          "type": "integer",
+          "description": "Maximum Half-Day Leave applications allowed per session."
+        },
+        "minAttendancePercent": {
+          "type": "integer",
+          "description": "Minimum required attendance percentage threshold (e.g., 75)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "tradeId",
+        "tradeName",
+        "tradeCode",
+        "adminId",
+        "adminName",
+        "sessionYear",
+        "totalWorkingDays",
+        "maxCasualLeave",
+        "maxMedicalLeave",
+        "halfDayDeductionRule",
+        "maxHalfDayLeaves",
+        "minAttendancePercent",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TraineeRecord": {
+      "title": "TraineeRecord",
+      "description": "Trainee enrollment, attendance counters, and leave balances scoped to an ITI Trade.",
+      "type": "object",
+      "properties": {
+        "traineeId": {
+          "type": "string",
+          "description": "Unique Trainee record ID."
+        },
+        "traineeUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the Trainee."
+        },
+        "adminId": {
+          "type": "string",
+          "description": "UID of the Training Officer managing this Trainee's Trade."
+        },
+        "tradeId": {
+          "type": "string",
+          "description": "Trade ID the Trainee belongs to."
+        },
+        "tradeName": {
+          "type": "string",
+          "description": "Trade name."
+        },
+        "sessionYear": {
+          "type": "string",
+          "description": "Academic session year."
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the Trainee."
+        },
+        "registrationNumber": {
+          "type": "string",
+          "description": "NCVT/SCVT Trainee Roll/Registration Number."
+        },
+        "fatherName": {
+          "type": "string",
+          "description": "Father or Guardian name."
+        },
+        "batchShift": {
+          "type": "string",
+          "description": "Shift or Unit assignment."
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether the trainee account is active."
+        },
+        "presentDays": {
+          "type": "integer",
+          "description": "Total days marked Present."
+        },
+        "absentDays": {
+          "type": "integer",
+          "description": "Total days marked Absent."
+        },
+        "halfDays": {
+          "type": "integer",
+          "description": "Total Half-Day attendance/leave occurrences."
+        },
+        "approvedLeaveDays": {
+          "type": "integer",
+          "description": "Total full days on approved leave."
+        },
+        "casualLeaveUsed": {
+          "type": "integer",
+          "description": "Total Casual Leave days used (0..12)."
+        },
+        "medicalLeaveUsed": {
+          "type": "integer",
+          "description": "Total Medical Leave days used (0..36)."
+        },
+        "halfDayLeaveUsed": {
+          "type": "integer",
+          "description": "Total Half-Day Leaves used (0..24)."
+        },
+        "lowAttendanceWarningCount": {
+          "type": "integer",
+          "description": "Count of low attendance warnings issued to this trainee."
+        },
+        "lastWarningMessage": {
+          "type": "string",
+          "description": "Latest warning text issued by Training Officer."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "traineeId",
+        "traineeUid",
+        "adminId",
+        "tradeId",
+        "tradeName",
+        "sessionYear",
+        "fullName",
+        "registrationNumber",
+        "fatherName",
+        "batchShift",
+        "isActive",
+        "presentDays",
+        "absentDays",
+        "halfDays",
+        "approvedLeaveDays",
+        "casualLeaveUsed",
+        "medicalLeaveUsed",
+        "halfDayLeaveUsed",
+        "lowAttendanceWarningCount",
+        "lastWarningMessage",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "Daily attendance entry for a trainee with deterministic ID (traineeId_dateString).",
+      "type": "object",
+      "properties": {
+        "attendanceId": {
+          "type": "string",
+          "description": "Deterministic ID formatted as traineeId_YYYY-MM-DD."
+        },
+        "traineeId": {
+          "type": "string",
+          "description": "ID of the TraineeRecord."
+        },
+        "traineeUid": {
+          "type": "string",
+          "description": "UID of the Trainee."
+        },
+        "traineeName": {
+          "type": "string",
+          "description": "Full name of the Trainee."
+        },
+        "registrationNumber": {
+          "type": "string",
+          "description": "Registration number of the Trainee."
+        },
+        "tradeId": {
+          "type": "string",
+          "description": "Trade ID."
+        },
+        "tradeName": {
+          "type": "string",
+          "description": "Trade name."
+        },
+        "adminId": {
+          "type": "string",
+          "description": "UID of the Trade's Training Officer."
+        },
+        "dateString": {
+          "type": "string",
+          "description": "ISO date string YYYY-MM-DD."
+        },
+        "monthString": {
+          "type": "string",
+          "description": "ISO month string YYYY-MM."
+        },
+        "sessionYear": {
+          "type": "string",
+          "description": "Academic session year."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PRESENT", "ABSENT", "ON_LEAVE", "HALF_DAY"],
+          "description": "Attendance status for the day."
+        },
+        "markedByRole": {
+          "type": "string",
+          "enum": ["TRAINEE", "ADMIN"],
+          "description": "Who marked this attendance record."
+        },
+        "remarks": {
+          "type": "string",
+          "description": "Optional remarks or leave reference."
+        },
+        "checkInTime": {
+          "type": "string",
+          "description": "Formatted check-in time (e.g., 09:10 AM)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "attendanceId",
+        "traineeId",
+        "traineeUid",
+        "traineeName",
+        "registrationNumber",
+        "tradeId",
+        "tradeName",
+        "adminId",
+        "dateString",
+        "monthString",
+        "sessionYear",
+        "status",
+        "markedByRole",
+        "remarks",
+        "checkInTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "LeaveApplication": {
+      "title": "LeaveApplication",
+      "description": "Leave request for Casual Leave (max 12), Half-Day Leave, or Medical Leave (max 36).",
+      "type": "object",
+      "properties": {
+        "leaveId": {
+          "type": "string",
+          "description": "Unique Leave Application ID."
+        },
+        "traineeId": {
+          "type": "string",
+          "description": "Trainee record ID."
+        },
+        "traineeUid": {
+          "type": "string",
+          "description": "Trainee Firebase Auth UID."
+        },
+        "traineeName": {
+          "type": "string",
+          "description": "Trainee full name."
+        },
+        "registrationNumber": {
+          "type": "string",
+          "description": "Trainee registration number."
+        },
+        "tradeId": {
+          "type": "string",
+          "description": "Trade ID."
+        },
+        "tradeName": {
+          "type": "string",
+          "description": "Trade name."
+        },
+        "adminId": {
+          "type": "string",
+          "description": "UID of the Training Officer for this Trade."
+        },
+        "sessionYear": {
+          "type": "string",
+          "description": "Academic session year."
+        },
+        "leaveType": {
+          "type": "string",
+          "enum": ["CL", "HALF_DAY", "MEDICAL"],
+          "description": "Type of leave applied for."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Leave start date YYYY-MM-DD."
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Leave end date YYYY-MM-DD."
+        },
+        "monthString": {
+          "type": "string",
+          "description": "Month string YYYY-MM of leave start."
+        },
+        "totalDays": {
+          "type": "integer",
+          "description": "Number of days requested (CL <= 12, MEDICAL <= 36, HALF_DAY == 1)."
+        },
+        "halfDaySession": {
+          "type": "string",
+          "enum": ["NONE", "FIRST_HALF", "SECOND_HALF"],
+          "description": "Which half of the day for HALF_DAY leave."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for leave application."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PENDING", "APPROVED", "REJECTED"],
+          "description": "Leave approval status."
+        },
+        "adminRemarks": {
+          "type": "string",
+          "description": "Remarks added by the Training Officer on approval/rejection."
+        },
+        "reviewedBy": {
+          "type": "string",
+          "description": "Name of the Training Officer who reviewed the application."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "leaveId",
+        "traineeId",
+        "traineeUid",
+        "traineeName",
+        "registrationNumber",
+        "tradeId",
+        "tradeName",
+        "adminId",
+        "sessionYear",
+        "leaveType",
+        "startDate",
+        "endDate",
+        "monthString",
+        "totalDays",
+        "halfDaySession",
+        "reason",
+        "status",
+        "adminRemarks",
+        "reviewedBy",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TraineeNotification": {
+      "title": "TraineeNotification",
+      "description": "Status update notifications for leave applications and Low Attendance Warnings.",
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string",
+          "description": "Unique notification ID."
+        },
+        "traineeId": {
+          "type": "string",
+          "description": "Target TraineeRecord ID."
+        },
+        "traineeUid": {
+          "type": "string",
+          "description": "Target Trainee UID."
+        },
+        "traineeName": {
+          "type": "string",
+          "description": "Target Trainee name."
+        },
+        "tradeId": {
+          "type": "string",
+          "description": "Trade ID."
+        },
+        "adminId": {
+          "type": "string",
+          "description": "UID of the Training Officer who issued the notification."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["LEAVE_APPROVED", "LEAVE_REJECTED", "LOW_ATTENDANCE_WARNING", "GENERAL_NOTICE"],
+          "description": "Category of notification."
+        },
+        "title": {
+          "type": "string",
+          "description": "Short notification title."
+        },
+        "message": {
+          "type": "string",
+          "description": "Detailed notification body."
+        },
+        "isRead": {
+          "type": "boolean",
+          "description": "Whether the trainee has read the notification."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": [
+        "notificationId",
+        "traineeId",
+        "traineeUid",
+        "traineeName",
+        "tradeId",
+        "adminId",
+        "type",
+        "title",
+        "message",
+        "isRead",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminProfile" },
+      "description": "Training Officer profiles bound to their assigned Trade."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles for role routing and trade assignment."
+    },
+    "/trades/{tradeId}": {
+      "schema": { "$ref": "#/entities/Trade" },
+      "description": "ITI Raigarh Trades managed by their assigned Training Officer."
+    },
+    "/trainees/{traineeId}": {
+      "schema": { "$ref": "#/entities/TraineeRecord" },
+      "description": "Trainee accounts, attendance totals, and leave balances isolated by Trade."
+    },
+    "/attendance/{attendanceId}": {
+      "schema": { "$ref": "#/entities/AttendanceRecord" },
+      "description": "Daily attendance records (one per trainee per day)."
+    },
+    "/leaves/{leaveId}": {
+      "schema": { "$ref": "#/entities/LeaveApplication" },
+      "description": "Leave applications for CL, Half-Day, and Medical Leave."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/TraineeNotification" },
+      "description": "Leave approval/rejection alerts and Low Attendance Warnings."
+    }
+  }
+}
